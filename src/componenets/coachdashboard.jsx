@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Heart,
   Activity,
@@ -20,6 +20,7 @@ import {
   Volume2,
   Users,
   Settings,
+  Menu
 } from "lucide-react";
 
 const mockTeamAthletes = [
@@ -71,6 +72,7 @@ const CoachDashboard = ({ onLogout, name }) => {
   const [isTimerRunning, setIsTimerRunning] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
+  const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
 
   // CPR Modal timer effect
   useEffect(() => {
@@ -122,6 +124,56 @@ const CoachDashboard = ({ onLogout, name }) => {
   const handleCloseSettings = () => {
     setShowSettings(false);
   };
+
+  // Sidebar for mobile
+  const AthleteList = ({ onSelect, selectedAthlete }) => (
+    <div className="space-y-3">
+      {mockTeamAthletes.map((athlete) => (
+        <div
+          key={athlete.id}
+          className={`p-4 rounded-xl cursor-pointer transition-all duration-200 ${
+            selectedAthlete?.id === athlete.id
+              ? "bg-red-600/20 border-2 border-red-500"
+              : "bg-gray-800 border border-gray-700 hover:border-gray-600"
+          }`}
+          onClick={() => {
+            onSelect(athlete);
+            setMobileSidebarOpen(false);
+          }}
+        >
+          <div className="flex items-center justify-between mb-2">
+            <h3 className="text-white font-medium text-sm">{athlete.name}</h3>
+            <div
+              className={`w-3 h-3 rounded-full ${
+                athlete.status === "normal"
+                  ? "bg-green-400"
+                  : athlete.status === "warning"
+                  ? "bg-yellow-400"
+                  : "bg-red-400"
+              }`}
+            ></div>
+          </div>
+          <div className="flex items-center justify-between text-xs">
+            <span className="text-gray-400">{athlete.sport}</span>
+            <span className="text-gray-300">{athlete.heartRate} BPM</span>
+          </div>
+          <div className="flex items-center justify-between mt-2">
+            <span
+              className={`text-xs px-2 py-1 rounded-full ${
+                athlete.risk === "low"
+                  ? "bg-green-500/20 text-green-400"
+                  : athlete.risk === "medium"
+                  ? "bg-yellow-500/20 text-yellow-400"
+                  : "bg-red-500/20 text-red-400"
+              }`}
+            >
+              {athlete.risk.toUpperCase()} RISK
+            </span>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
 
   const CPRModal = () => (
     <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-4">
@@ -254,15 +306,24 @@ const CoachDashboard = ({ onLogout, name }) => {
   );
 
   return (
-    <div className="min-h-screen bg-black flex">
-      {/* Sidebar (fixed) */}
+    <div className="min-h-screen bg-black flex flex-col md:flex-row">
+      {/* Mobile sidebar overlay */}
       <div
-        className="w-80 bg-gray-900 border-r border-gray-800 h-screen overflow-y-auto"
+        className={`fixed inset-0 z-40 bg-black bg-opacity-50 transition-opacity md:hidden ${
+          mobileSidebarOpen ? "block" : "hidden"
+        }`}
+        onClick={() => setMobileSidebarOpen(false)}
+      ></div>
+      <aside
+        className={`
+          fixed z-50 inset-y-0 left-0 w-72 bg-gray-900 border-r border-gray-800 overflow-y-auto transform transition-transform duration-300
+          md:static md:translate-x-0 md:w-80 md:block
+          ${mobileSidebarOpen ? "translate-x-0" : "-translate-x-full"}
+        `}
         style={{
-          position: "sticky",
           top: 0,
           alignSelf: "flex-start",
-          zIndex: 40,
+          height: "100vh"
         }}
       >
         <div className="p-6">
@@ -288,53 +349,17 @@ const CoachDashboard = ({ onLogout, name }) => {
             </button>
           </div>
           {/* Athletes List */}
-          <div className="space-y-3">
-            {mockTeamAthletes.map((athlete) => (
-              <div
-                key={athlete.id}
-                className={`p-4 rounded-xl cursor-pointer transition-all duration-200 ${
-                  selectedAthlete?.id === athlete.id
-                    ? "bg-red-600/20 border-2 border-red-500"
-                    : "bg-gray-800 border border-gray-700 hover:border-gray-600"
-                }`}
-                onClick={() => setSelectedAthlete(athlete)}
-              >
-                <div className="flex items-center justify-between mb-2">
-                  <h3 className="text-white font-medium text-sm">{athlete.name}</h3>
-                  <div
-                    className={`w-3 h-3 rounded-full ${
-                      athlete.status === "normal"
-                        ? "bg-green-400"
-                        : athlete.status === "warning"
-                        ? "bg-yellow-400"
-                        : "bg-red-400"
-                    }`}
-                  ></div>
-                </div>
-                <div className="flex items-center justify-between text-xs">
-                  <span className="text-gray-400">{athlete.sport}</span>
-                  <span className="text-gray-300">{athlete.heartRate} BPM</span>
-                </div>
-                <div className="flex items-center justify-between mt-2">
-                  <span
-                    className={`text-xs px-2 py-1 rounded-full ${
-                      athlete.risk === "low"
-                        ? "bg-green-500/20 text-green-400"
-                        : athlete.risk === "medium"
-                        ? "bg-yellow-500/20 text-yellow-400"
-                        : "bg-red-500/20 text-red-400"
-                    }`}
-                  >
-                    {athlete.risk.toUpperCase()} RISK
-                  </span>
-                </div>
-              </div>
-            ))}
-          </div>
+          <AthleteList onSelect={setSelectedAthlete} selectedAthlete={selectedAthlete} />
         </div>
-      </div>
-      {/* Main Content */}
-      <div className="flex-1 p-6">
+      </aside>
+      <div className="flex-1 p-2 sm:p-4 md:p-6">
+        {/* Mobile hamburger button */}
+        <button
+          className="md:hidden fixed top-4 left-4 z-50 bg-gray-900 border border-gray-800 p-2 rounded-lg text-white"
+          onClick={() => setMobileSidebarOpen(true)}
+        >
+          <Menu className="h-6 w-6" />
+        </button>
         {/* Alert Message */}
         {showAlert && (
           <div className="fixed top-6 left-1/2 transform -translate-x-1/2 z-50 bg-red-700 text-white px-6 py-3 rounded-xl shadow-lg flex items-center space-x-3">
@@ -346,7 +371,7 @@ const CoachDashboard = ({ onLogout, name }) => {
         {showSettings && <SettingsModal />}
 
         {/* Header */}
-        <header className="bg-gray-900 border-b border-gray-800 px-6 py-4 rounded-xl mb-8 flex items-center justify-between">
+        <header className="bg-gray-900 border-b border-gray-800 px-6 py-4 rounded-xl mb-8 flex flex-col md:flex-row items-center justify-between gap-4">
           <div className="flex items-center">
             <div className="bg-red-600 rounded-full p-2 mr-3">
               <Heart className="h-6 w-6 text-white" />
@@ -383,16 +408,16 @@ const CoachDashboard = ({ onLogout, name }) => {
               <Users className="h-16 w-16 text-gray-600 mx-auto mb-4" />
               <h3 className="text-xl font-semibold text-white mb-2">Select an Athlete</h3>
               <p className="text-gray-400">
-                Choose an athlete from the sidebar to view their detailed health profile
+                Choose an athlete from the list to view their detailed health profile
               </p>
             </div>
           </div>
         ) : (
           <div>
             {/* Athlete Header */}
-            <div className="flex items-center justify-between mb-8">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-8 gap-4">
               <div>
-                <h2 className="text-3xl font-bold text-white mb-2">
+                <h2 className="text-2xl sm:text-3xl font-bold text-white mb-2">
                   {selectedAthlete.name}
                 </h2>
                 <div className="flex items-center space-x-4">

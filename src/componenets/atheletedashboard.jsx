@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { 
-  Heart, 
-  Activity, 
+import {
+  Heart,
+  Activity,
   AlertTriangle,
   Bell,
   Settings,
@@ -120,10 +120,10 @@ const AthleteDashboard = ({ onLogout, name }) => {
   };
 
   const CPRModal = () => (
-    <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-4">
-      <div className="bg-gray-900 rounded-2xl p-8 max-w-2xl w-full border border-gray-800">
-        <div className="flex items-center justify-between mb-6">
-          <div className="flex items-center">
+    <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-2 sm:p-4">
+      <div className="bg-gray-900 rounded-2xl p-4 sm:p-8 max-w-2xl w-full border border-gray-800">
+        <div className="flex flex-col sm:flex-row items-center justify-between mb-6 gap-2">
+          <div className="flex items-center mb-2 sm:mb-0">
             <div className="bg-red-600 rounded-full p-3 mr-4">
               <Heart className="h-8 w-8 text-white" />
             </div>
@@ -132,9 +132,9 @@ const AthleteDashboard = ({ onLogout, name }) => {
               <p className="text-gray-400">Emergency Response Guide</p>
             </div>
           </div>
-          <button 
+          <button
             onClick={() => setShowCPRModal(false)}
-            className="text-gray-400 hover:text-white"
+            className="text-gray-400 hover:text-white self-end"
           >
             ✕
           </button>
@@ -143,17 +143,17 @@ const AthleteDashboard = ({ onLogout, name }) => {
         {/* Timer */}
         <div className="bg-red-600/20 rounded-xl p-4 mb-6 text-center">
           <div className="text-3xl font-bold text-red-400 mb-2">{formatTime(cprTimer)}</div>
-          <div className="flex items-center justify-center space-x-4">
-            <button 
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+            <button
               onClick={() => setIsTimerRunning(!isTimerRunning)}
-              className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg flex items-center"
+              className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg flex items-center justify-center w-full sm:w-auto"
             >
               {isTimerRunning ? <Pause className="h-4 w-4 mr-2" /> : <Play className="h-4 w-4 mr-2" />}
               {isTimerRunning ? 'Pause' : 'Start'}
             </button>
-            <button 
+            <button
               onClick={resetCPR}
-              className="bg-gray-700 hover:bg-gray-600 text-white px-4 py-2 rounded-lg flex items-center"
+              className="bg-gray-700 hover:bg-gray-600 text-white px-4 py-2 rounded-lg flex items-center justify-center w-full sm:w-auto"
             >
               <RotateCcw className="h-4 w-4 mr-2" />
               Reset
@@ -162,18 +162,18 @@ const AthleteDashboard = ({ onLogout, name }) => {
         </div>
 
         {/* Current Step */}
-        <div className="bg-gray-800 rounded-xl p-6 mb-6">
+        <div className="bg-gray-800 rounded-xl p-4 sm:p-6 mb-6">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="text-xl font-semibold text-white">
+            <h3 className="text-lg sm:text-xl font-semibold text-white">
               Step {cprStep + 1}: {cprSteps[cprStep].title}
             </h3>
-            <span className="bg-red-600 text-white text-sm px-3 py-1 rounded-full">
+            <span className="bg-red-600 text-white text-xs sm:text-sm px-3 py-1 rounded-full">
               {cprStep + 1}/{cprSteps.length}
             </span>
           </div>
-          <p className="text-gray-300 text-lg mb-4">{cprSteps[cprStep].description}</p>
+          <p className="text-gray-300 text-base sm:text-lg mb-4">{cprSteps[cprStep].description}</p>
           {cprSteps[cprStep].duration && (
-            <p className="text-gray-400 text-sm">
+            <p className="text-gray-400 text-xs sm:text-sm">
               Recommended duration: {cprSteps[cprStep].duration} seconds
             </p>
           )}
@@ -182,7 +182,7 @@ const AthleteDashboard = ({ onLogout, name }) => {
         {/* Progress Bar */}
         <div className="mb-6">
           <div className="bg-gray-700 rounded-full h-2">
-            <div 
+            <div
               className="bg-red-500 h-2 rounded-full transition-all duration-300"
               style={{ width: `${((cprStep + 1) / cprSteps.length) * 100}%` }}
             ></div>
@@ -190,18 +190,18 @@ const AthleteDashboard = ({ onLogout, name }) => {
         </div>
 
         {/* Action Buttons */}
-        <div className="flex space-x-4">
+        <div className="flex flex-col sm:flex-row gap-4">
           {cprStep < cprSteps.length - 1 && (
-            <button 
+            <button
               onClick={nextStep}
               className="bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-lg flex-1 font-medium"
             >
               Next Step
             </button>
           )}
-          <button 
+          <button
             onClick={() => window.open('tel:911')}
-            className="bg-orange-600 hover:bg-orange-700 text-white px-6 py-3 rounded-lg flex items-center justify-center"
+            className="bg-orange-600 hover:bg-orange-700 text-white px-6 py-3 rounded-lg flex items-center justify-center flex-1"
           >
             <Volume2 className="h-4 w-4 mr-2" />
             Call 911
@@ -213,10 +213,10 @@ const AthleteDashboard = ({ onLogout, name }) => {
 
   // Settings Modal
   const SettingsModal = () => (
-    <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50 p-4">
-      <div className="bg-gray-900 rounded-2xl p-8 max-w-lg w-full border border-gray-800">
+    <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50 p-2 sm:p-4">
+      <div className="bg-gray-900 rounded-2xl p-4 sm:p-8 max-w-lg w-full border border-gray-800">
         <div className="flex items-center justify-between mb-6">
-          <h2 className="text-2xl font-bold text-white flex items-center">
+          <h2 className="text-xl sm:text-2xl font-bold text-white flex items-center">
             <Settings className="h-6 w-6 mr-2" />
             Settings
           </h2>
@@ -260,7 +260,7 @@ const AthleteDashboard = ({ onLogout, name }) => {
     <div className="min-h-screen bg-black">
       {/* Alert Message */}
       {showAlert && (
-        <div className="fixed top-6 left-1/2 transform -translate-x-1/2 z-50 bg-red-700 text-white px-6 py-3 rounded-xl shadow-lg flex items-center space-x-3">
+        <div className="fixed top-4 left-1/2 transform -translate-x-1/2 z-50 bg-red-700 text-white px-4 sm:px-6 py-3 rounded-xl shadow-lg flex items-center space-x-3 text-xs sm:text-base">
           <Bell className="h-5 w-5" />
           <span>New alert received! Please check your health data.</span>
         </div>
@@ -270,21 +270,21 @@ const AthleteDashboard = ({ onLogout, name }) => {
       {showSettings && <SettingsModal />}
 
       {/* Header */}
-      <header className="bg-gray-900 border-b border-gray-800 px-6 py-4">
-        <div className="flex items-center justify-between">
+      <header className="bg-gray-900 border-b border-gray-800 px-3 py-3 sm:px-6 sm:py-4">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
           <div className="flex items-center">
             <div className="bg-red-600 rounded-full p-2 mr-3">
               <Heart className="h-6 w-6 text-white" />
             </div>
             <div>
-              <h1 className="text-xl font-bold text-white">STOMP</h1>
-              <p className="text-gray-400 text-sm">Athlete Dashboard</p>
+              <h1 className="text-lg sm:text-xl font-bold text-white">STOMP</h1>
+              <p className="text-gray-400 text-xs sm:text-sm">Athlete Dashboard</p>
             </div>
           </div>
-          <div className="flex items-center space-x-4">
-            <button 
+          <div className="flex items-center space-x-2 sm:space-x-4">
+            <button
               onClick={startCPR}
-              className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg flex items-center text-sm font-medium"
+              className="bg-red-600 hover:bg-red-700 text-white px-2 sm:px-4 py-2 rounded-lg flex items-center text-xs sm:text-sm font-medium"
             >
               <Heart className="h-4 w-4 mr-2" />
               Emergency CPR
@@ -295,7 +295,7 @@ const AthleteDashboard = ({ onLogout, name }) => {
             <button className="text-gray-400 hover:text-white p-2" onClick={handleSettingsClick}>
               <Settings className="h-5 w-5" />
             </button>
-            <button 
+            <button
               className="text-gray-400 hover:text-red-400 p-2"
               onClick={onLogout}
             >
@@ -306,107 +306,109 @@ const AthleteDashboard = ({ onLogout, name }) => {
       </header>
 
       {/* Main Content */}
-      <main className="p-6">
+      <main className="p-2 sm:p-6">
         {/* Welcome Section */}
         <div className="mb-8">
-          <h2 className="text-3xl font-bold text-white mb-2">
+          <h2 className="text-2xl sm:text-3xl font-bold text-white mb-2">
             Welcome back, {name || "Athlete"}
           </h2>
-          <p className="text-gray-400">Monitor your cardiac health in real-time</p>
+          <p className="text-gray-400 text-sm sm:text-base">
+            Monitor your cardiac health in real-time
+          </p>
         </div>
 
         {/* Status Overview */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-          <div className="bg-gray-900 rounded-2xl p-6 border border-gray-800">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 mb-8">
+          <div className="bg-gray-900 rounded-2xl p-4 sm:p-6 border border-gray-800">
             <div className="flex items-center justify-between mb-4">
               <div className="bg-green-500/20 rounded-full p-3">
                 <Heart className="h-6 w-6 text-green-400" />
               </div>
-              <span className="text-green-400 text-sm font-medium">NORMAL</span>
+              <span className="text-green-400 text-xs sm:text-sm font-medium">NORMAL</span>
             </div>
-            <h3 className="text-2xl font-bold text-white mb-1">{mockAthleteData.heartRate}</h3>
-            <p className="text-gray-400 text-sm">Heart Rate (BPM)</p>
+            <h3 className="text-xl sm:text-2xl font-bold text-white mb-1">{mockAthleteData.heartRate}</h3>
+            <p className="text-gray-400 text-xs sm:text-sm">Heart Rate (BPM)</p>
           </div>
 
-          <div className="bg-gray-900 rounded-2xl p-6 border border-gray-800">
+          <div className="bg-gray-900 rounded-2xl p-4 sm:p-6 border border-gray-800">
             <div className="flex items-center justify-between mb-4">
               <div className="bg-blue-500/20 rounded-full p-3">
                 <Activity className="h-6 w-6 text-blue-400" />
               </div>
-              <span className="text-blue-400 text-sm font-medium">STABLE</span>
+              <span className="text-blue-400 text-xs sm:text-sm font-medium">STABLE</span>
             </div>
-            <h3 className="text-2xl font-bold text-white mb-1">{mockAthleteData.spo2}%</h3>
-            <p className="text-gray-400 text-sm">SpO2 Levels</p>
+            <h3 className="text-xl sm:text-2xl font-bold text-white mb-1">{mockAthleteData.spo2}%</h3>
+            <p className="text-gray-400 text-xs sm:text-sm">SpO2 Levels</p>
           </div>
 
-          <div className="bg-gray-900 rounded-2xl p-6 border border-gray-800">
+          <div className="bg-gray-900 rounded-2xl p-4 sm:p-6 border border-gray-800">
             <div className="flex items-center justify-between mb-4">
               <div className="bg-purple-500/20 rounded-full p-3">
                 <Zap className="h-6 w-6 text-purple-400" />
               </div>
-              <span className="text-purple-400 text-sm font-medium">LOW</span>
+              <span className="text-purple-400 text-xs sm:text-sm font-medium">LOW</span>
             </div>
-            <h3 className="text-2xl font-bold text-white mb-1">{mockAthleteData.stressLevel}</h3>
-            <p className="text-gray-400 text-sm">Stress Level</p>
+            <h3 className="text-xl sm:text-2xl font-bold text-white mb-1">{mockAthleteData.stressLevel}</h3>
+            <p className="text-gray-400 text-xs sm:text-sm">Stress Level</p>
           </div>
 
-          <div className="bg-gray-900 rounded-2xl p-6 border border-gray-800">
+          <div className="bg-gray-900 rounded-2xl p-4 sm:p-6 border border-gray-800">
             <div className="flex items-center justify-between mb-4">
               <div className="bg-orange-500/20 rounded-full p-3">
                 <TrendingUp className="h-6 w-6 text-orange-400" />
               </div>
-              <span className="text-orange-400 text-sm font-medium">GOOD</span>
+              <span className="text-orange-400 text-xs sm:text-sm font-medium">GOOD</span>
             </div>
-            <h3 className="text-2xl font-bold text-white mb-1">85</h3>
-            <p className="text-gray-400 text-sm">Health Score</p>
+            <h3 className="text-xl sm:text-2xl font-bold text-white mb-1">85</h3>
+            <p className="text-gray-400 text-xs sm:text-sm">Health Score</p>
           </div>
         </div>
 
         {/* Charts and Data */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 mb-8">
           {/* ECG Chart */}
-          <div className="bg-gray-900 rounded-2xl p-6 border border-gray-800">
-            <div className="flex items-center justify-between mb-6">
-              <h3 className="text-xl font-semibold text-white">ECG Monitoring</h3>
+          <div className="bg-gray-900 rounded-2xl p-4 sm:p-6 border border-gray-800">
+            <div className="flex items-center justify-between mb-4 sm:mb-6">
+              <h3 className="text-lg sm:text-xl font-semibold text-white">ECG Monitoring</h3>
               <div className="flex items-center space-x-2">
                 <div className="w-3 h-3 bg-green-400 rounded-full animate-pulse"></div>
-                <span className="text-green-400 text-sm">Live</span>
+                <span className="text-green-400 text-xs sm:text-sm">Live</span>
               </div>
             </div>
-            <div className="h-48 bg-gray-800 rounded-xl flex items-center justify-center mb-4">
+            <div className="h-32 sm:h-48 bg-gray-800 rounded-xl flex items-center justify-center mb-4">
               <div className="text-center">
-                <Waves className="h-12 w-12 text-gray-600 mx-auto mb-2" />
-                <p className="text-gray-500">ECG Waveform Visualization</p>
+                <Waves className="h-10 w-10 sm:h-12 sm:w-12 text-gray-600 mx-auto mb-2" />
+                <p className="text-gray-500 text-xs sm:text-base">ECG Waveform Visualization</p>
               </div>
             </div>
-            <div className="flex justify-between text-sm">
+            <div className="flex justify-between text-xs sm:text-sm">
               <span className="text-gray-400">Rhythm: Normal Sinus</span>
               <span className="text-green-400">No Abnormalities</span>
             </div>
           </div>
 
           {/* Vital Signs */}
-          <div className="bg-gray-900 rounded-2xl p-6 border border-gray-800">
-            <h3 className="text-xl font-semibold text-white mb-6">Vital Signs</h3>
-            <div className="space-y-4">
-              <div className="flex items-center justify-between p-4 bg-gray-800 rounded-xl">
+          <div className="bg-gray-900 rounded-2xl p-4 sm:p-6 border border-gray-800">
+            <h3 className="text-lg sm:text-xl font-semibold text-white mb-4 sm:mb-6">Vital Signs</h3>
+            <div className="space-y-3 sm:space-y-4">
+              <div className="flex items-center justify-between p-3 sm:p-4 bg-gray-800 rounded-xl">
                 <div className="flex items-center">
                   <Monitor className="h-5 w-5 text-blue-400 mr-3" />
-                  <span className="text-gray-300">Blood Pressure</span>
+                  <span className="text-gray-300 text-xs sm:text-base">Blood Pressure</span>
                 </div>
                 <span className="text-white font-medium">{mockAthleteData.bloodPressure}</span>
               </div>
-              <div className="flex items-center justify-between p-4 bg-gray-800 rounded-xl">
+              <div className="flex items-center justify-between p-3 sm:p-4 bg-gray-800 rounded-xl">
                 <div className="flex items-center">
                   <Target className="h-5 w-5 text-red-400 mr-3" />
-                  <span className="text-gray-300">Temperature</span>
+                  <span className="text-gray-300 text-xs sm:text-base">Temperature</span>
                 </div>
                 <span className="text-white font-medium">{mockAthleteData.temperature}°F</span>
               </div>
-              <div className="flex items-center justify-between p-4 bg-gray-800 rounded-xl">
+              <div className="flex items-center justify-between p-3 sm:p-4 bg-gray-800 rounded-xl">
                 <div className="flex items-center">
                   <Activity className="h-5 w-5 text-green-400 mr-3" />
-                  <span className="text-gray-300">Respiratory Rate</span>
+                  <span className="text-gray-300 text-xs sm:text-base">Respiratory Rate</span>
                 </div>
                 <span className="text-white font-medium">16 /min</span>
               </div>
@@ -415,28 +417,28 @@ const AthleteDashboard = ({ onLogout, name }) => {
         </div>
 
         {/* Recent Alerts */}
-        <div className="bg-gray-900 rounded-2xl p-6 border border-gray-800">
-          <h3 className="text-xl font-semibold text-white mb-6">Recent Activity</h3>
-          <div className="space-y-4">
-            <div className="flex items-center p-4 bg-gray-800 rounded-xl">
-              <div className="bg-green-500/20 rounded-full p-2 mr-4">
+        <div className="bg-gray-900 rounded-2xl p-4 sm:p-6 border border-gray-800">
+          <h3 className="text-lg sm:text-xl font-semibold text-white mb-4 sm:mb-6">Recent Activity</h3>
+          <div className="space-y-3 sm:space-y-4">
+            <div className="flex flex-col sm:flex-row sm:items-center p-3 sm:p-4 bg-gray-800 rounded-xl">
+              <div className="bg-green-500/20 rounded-full p-2 mr-0 sm:mr-4 mb-2 sm:mb-0 self-start sm:self-center">
                 <Heart className="h-4 w-4 text-green-400" />
               </div>
               <div className="flex-1">
-                <p className="text-white font-medium">Training session completed</p>
-                <p className="text-gray-400 text-sm">All vitals remained in normal range</p>
+                <p className="text-white font-medium text-xs sm:text-base">Training session completed</p>
+                <p className="text-gray-400 text-xs sm:text-sm">All vitals remained in normal range</p>
               </div>
-              <span className="text-gray-500 text-sm">2 hours ago</span>
+              <span className="text-gray-500 text-xs sm:text-sm mt-2 sm:mt-0">2 hours ago</span>
             </div>
-            <div className="flex items-center p-4 bg-gray-800 rounded-xl">
-              <div className="bg-blue-500/20 rounded-full p-2 mr-4">
+            <div className="flex flex-col sm:flex-row sm:items-center p-3 sm:p-4 bg-gray-800 rounded-xl">
+              <div className="bg-blue-500/20 rounded-full p-2 mr-0 sm:mr-4 mb-2 sm:mb-0 self-start sm:self-center">
                 <Clock className="h-4 w-4 text-blue-400" />
               </div>
               <div className="flex-1">
-                <p className="text-white font-medium">Daily health report generated</p>
-                <p className="text-gray-400 text-sm">Health score: 85/100 - Good condition</p>
+                <p className="text-white font-medium text-xs sm:text-base">Daily health report generated</p>
+                <p className="text-gray-400 text-xs sm:text-sm">Health score: 85/100 - Good condition</p>
               </div>
-              <span className="text-gray-500 text-sm">1 day ago</span>
+              <span className="text-gray-500 text-xs sm:text-sm mt-2 sm:mt-0">1 day ago</span>
             </div>
           </div>
         </div>

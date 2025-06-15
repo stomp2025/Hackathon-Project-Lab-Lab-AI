@@ -260,33 +260,117 @@ eas build --platform all
 
 ## 🗂️ Project Structure
 
-├── 📱 frontend/ # React Native mobile app
-│ ├── app/ # Expo Router pages
-│ │ ├── (auth)/ # Authentication screens
-│ │ │ ├── login.tsx
-│ │ │ └── register.tsx
-│ │ ├── (tabs)/ # Main app tabs
-│ │ │ ├── athlete/ # Athlete dashboard
-│ │ │ ├── coach/ # Coach dashboard
-│ │ │ ├── referee/ # Referee dashboard
-│ │ │ └── teammate/ # Teammate dashboard
-│ │ ├── emergency.tsx # Emergency CPR guide
-│ │ └── index.tsx # App entry point
-│ ├── components/ # Reusable components
-│ │ ├── OnboardingTutorial.tsx # Tutorial system
-│ │ ├── NotificationSystem.tsx
-│ │ └── CPRGuide.tsx
-│ ├── contexts/ # React contexts
-│ │ └── AuthContext.tsx # Authentication state
-│ └── constants/ # App constants
+```
+STOMP-App/
+├── 📱 frontend/                           # React Native mobile application
+│   ├── 📄 app.json                       # Expo configuration
+│   ├── 📄 package.json                   # Frontend dependencies
+│   ├── 📄 tsconfig.json                  # TypeScript configuration
+│   ├── 📄 babel.config.js                # Babel configuration
+│   ├── 📄 metro.config.js                # Metro bundler config
+│   ├── 📄 tailwind.config.js             # TailwindCSS config
+│   ├── 📄 global.css                     # Global styles
+│   ├── 📄 .gitignore                     # Frontend gitignore
+│   │
+│   ├── 📂 app/                           # Expo Router file-based routing
+│   │   ├── 📄 _layout.tsx                # Root layout component
+│   │   ├── 📄 index.tsx                  # App entry point & loader
+│   │   ├── 📄 get-started.tsx            # Welcome/onboarding screen
+│   │   ├── 📄 emergency.tsx              # Emergency CPR guide
+│   │   │
+│   │   ├── 📂 (auth)/                    # Authentication flow
+│   │   │   ├── 📄 _layout.tsx            # Auth layout
+│   │   │   ├── 📄 login.tsx              # Login screen
+│   │   │   └── 📄 register.tsx           # Registration screen
+│   │   │
+│   │   └── 📂 (tabs)/                    # Main app navigation
+│   │       ├── 📄 _layout.tsx            # Tab layout with navigation
+│   │       ├── 📄 index.tsx              # Default tab redirect
+│   │       ├── 📄 dashboard.tsx          # General dashboard
+│   │       ├── 📄 profile.tsx            # User profile
+│   │       ├── 📄 settings.tsx           # App settings
+│   │       │
+│   │       ├── 📂 athlete/               # Athlete-specific screens
+│   │       │   ├── 📄 _layout.tsx        # Athlete layout
+│   │       │   ├── 📄 dashboard.tsx      # Vital signs & health data
+│   │       │   └── 📄 privacy-settings.tsx
+│   │       │
+│   │       ├── 📂 coach/                 # Coach-specific screens
+│   │       │   ├── 📄 _layout.tsx        # Coach layout
+│   │       │   ├── 📄 dashboard.tsx      # Team overview
+│   │       │   ├── 📄 reports.tsx        # Incident reports
+│   │       │   ├── 📄 simulations.tsx    # Emergency simulations
+│   │       │   └── 📂 athlete/
+│   │       │       └── 📄 [id].tsx       # Individual athlete details
+│   │       │
+│   │       ├── 📂 referee/               # Referee-specific screens
+│   │       │   ├── 📄 _layout.tsx        # Referee layout
+│   │       │   └── 📄 dashboard.tsx      # Game monitoring
+│   │       │
+│   │       └── 📂 teammate/              # Teammate-specific screens
+│   │           ├── 📄 _layout.tsx        # Teammate layout
+│   │           └── 📄 dashboard.tsx      # Team communication
+│   │
+│   ├── 📂 components/                    # Reusable UI components
+│   │   ├── 📄 OnboardingTutorial.tsx     # Role-specific tutorial system
+│   │   ├── 📄 CPRGuide.tsx               # Step-by-step CPR instructions
+│   │   ├── 📄 NotificationSystem.tsx     # In-app notifications
+│   │   ├── 📄 NotificationBell.tsx       # Notification indicator
+│   │   ├── 📄 EditScreenInfo.tsx         # Development helper
+│   │   ├── 📄 ExternalLink.tsx           # External link handler
+│   │   ├── 📄 StyledText.tsx             # Themed text component
+│   │   ├── 📄 Themed.tsx                 # Theme-aware components
+│   │   ├── 📄 useClientOnlyValue.ts      # Client-side utility
+│   │   ├── 📄 useColorScheme.ts          # Theme detection
+│   │   └── 📂 __tests__/                 # Component tests
+│   │
+│   ├── 📂 contexts/                      # React Context providers
+│   │   └── 📄 AuthContext.tsx            # Authentication state management
+│   │
+│   ├── 📂 context/                       # Additional contexts
+│   │   └── 📄 WebSocketContext.tsx       # Real-time communication
+│   │
+│   ├── 📂 constants/                     # App constants & configuration
+│   │   └── 📄 Config.ts                  # API URLs & app config
+│   │
+│   ├── 📂 assets/                        # Static assets
+│   │   ├── 📂 images/                    # App icons & images
+│   │   └── 📂 fonts/                     # Custom fonts
+│   │
+│   └── 📂 node_modules/                  # Frontend dependencies
 │
-├── 🖥️ backend/ # Python backend server
-│ ├── app/ # Application code
-│ ├── run_server.py # Server entry point
-│ ├── requirements.txt # Python dependencies
-│ └── stomp.db # SQLite database
+├── 🖥️ backend/                            # Python backend server
+│   ├── 📄 run_server.py                  # Server entry point
+│   ├── 📄 requirements.txt               # Python dependencies
+│   ├── 📄 SETUP.md                       # Backend setup guide
+│   ├── 📄 stomp.db                       # SQLite database file
+│   │
+│   ├── 📂 app/                           # Application logic
+│   │   ├── 📄 main.py                    # FastAPI application setup
+│   │   ├── 📄 database.py                # Database configuration
+│   │   ├── 📄 dependencies.py            # Dependency injection
+│   │   │
+│   │   ├── 📂 api/                       # API route handlers
+│   │   │   ├── 📄 auth.py                # Authentication endpoints
+│   │   │   ├── 📄 dashboard.py           # Dashboard data endpoints
+│   │   │   └── 📄 emergency.py           # Emergency alert endpoints
+│   │   │
+│   │   ├── 📂 models/                    # Database models
+│   │   │   ├── 📄 user.py                # User model
+│   │   │   ├── 📄 athlete.py             # Athlete-specific data
+│   │   │   └── 📄 emergency.py           # Emergency records
+│   │   │
+│   │   └── 📂 services/                  # Business logic services
+│   │       ├── 📄 auth_service.py        # Authentication logic
+│   │       ├── 📄 dashboard_service.py   # Dashboard data processing
+│   │       └── 📄 notification_service.py
+│   │
+│   └── 📂 venv/                          # Python virtual environment
 │
-└── 📋 README.md # This file
+├── 📋 README.md                          # Project documentation
+├── 🚫 .gitignore                         # Git ignore rules
+└── 📄 package.json                       # Root project metadata
+```
 
 
 

@@ -32,7 +32,7 @@ export default function GetStartedPage() {
           <View style={styles.logoContainer}>
             <Ionicons name="fitness" size={80} color="#DC2626" />
           </View>
-          <Text style={styles.appName}>SportSync</Text>
+          <Text style={styles.appName}>STOMP</Text>
           <Text style={styles.tagline}>Real-time athlete monitoring & team management</Text>
         </View>
 
@@ -102,7 +102,7 @@ export default function GetStartedPage() {
         {/* Footer */}
         <View style={styles.footer}>
           <Text style={styles.footerText}>
-            Join thousands of athletes and teams using SportSync
+            Join thousands of athletes and teams using STOMP
           </Text>
         </View>
       </ScrollView>

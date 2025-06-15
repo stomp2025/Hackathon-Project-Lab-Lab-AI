@@ -24,7 +24,7 @@ export default function HomePage() {
     <>
       <StatusBar hidden={true} />
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#1F2937' }}>
-        <Text style={{ fontSize: 24, color: '#FFFFFF' }}>Loading SportSync...</Text>
+        <Text style={{ fontSize: 24, color: '#FFFFFF' }}>Loading STOMP...</Text>
       </View>
     </>
   );

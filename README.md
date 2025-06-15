@@ -500,6 +500,7 @@ pytest --cov=app       # Run with coverage
 ---
 
 ## 🤝 Contributing
+# Francis Uche
 
 We welcome contributions! Please follow these steps:
 

@@ -1,3 +1,7 @@
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+
 from fastapi import FastAPI, Depends
 from fastapi.middleware.cors import CORSMiddleware # Import CORSMiddleware
 from app.api import auth, emergency_contacts, dashboard, emergency_alerts, incident_reports, emergency_simulations, notifications # Import all routers
@@ -19,6 +23,7 @@ origins = [
     "http://192.168.5.247:8081", # Expo Mobile (your IP)
     "http://192.168.5.247:8082", # Expo Mobile (alternative port)
     "http://192.168.5.247:19006", # Expo Mobile Metro
+    "*", # For hackathon - accept all origins
     # Add your frontend production URL here when you have one
 ]
 
@@ -42,3 +47,8 @@ app.include_router(notifications.router, prefix="/api/notifications", tags=["Not
 @app.get("/")
 async def root():
     return {"message": "Welcome to STOMP Backend"}
+
+if __name__ == "__main__":
+    import uvicorn
+    port = int(os.environ.get("PORT", 8000))
+    uvicorn.run(app, host="0.0.0.0", port=port)

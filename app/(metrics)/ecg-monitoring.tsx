@@ -1,0 +1,252 @@
+import { View, Text, StyleSheet, SafeAreaView } from "react-native"
+import { Ionicons } from "@expo/vector-icons"
+import { LineChart } from "react-native-chart-kit"
+import { Dimensions } from "react-native"
+
+const screenWidth = Dimensions.get("window").width
+
+export default function ECGMonitoringScreen() {
+  // Simulated ECG data
+  const ecgData = {
+    labels: ["", "", "", "", "", ""],
+    datasets: [
+      {
+        data: [
+          Math.random() * 10 + 70,
+          Math.random() * 10 + 65,
+          Math.random() * 30 + 60,
+          Math.random() * 10 + 65,
+          Math.random() * 10 + 70,
+          Math.random() * 10 + 65,
+        ],
+      },
+    ],
+  }
+
+  return (
+    <SafeAreaView style={styles.container}>
+      <View style={styles.header}>
+        <Text style={styles.title}>ECG Monitoring</Text>
+        <View style={styles.liveIndicator}>
+          <View style={styles.liveDot} />
+          <Text style={styles.liveText}>Live</Text>
+        </View>
+      </View>
+
+      <View style={styles.chartContainer}>
+        <LineChart
+          data={ecgData}
+          width={screenWidth - 32}
+          height={220}
+          chartConfig={{
+            backgroundColor: "#1e293b",
+            backgroundGradientFrom: "#1e293b",
+            backgroundGradientTo: "#1e293b",
+            decimalPlaces: 0,
+            color: (opacity = 1) => `rgba(46, 213, 115, ${opacity})`,
+            labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+            style: {
+              borderRadius: 16,
+            },
+            propsForDots: {
+              r: "0",
+            },
+          }}
+          bezier
+          style={styles.chart}
+        />
+      </View>
+
+      <View style={styles.infoContainer}>
+        <View style={styles.infoRow}>
+          <View style={styles.infoItem}>
+            <Text style={styles.infoLabel}>Rhythm</Text>
+            <Text style={styles.infoValue}>Normal Sinus</Text>
+          </View>
+          <View style={styles.infoItem}>
+            <Text style={styles.infoLabel}>Heart Rate</Text>
+            <Text style={styles.infoValue}>72 BPM</Text>
+          </View>
+        </View>
+
+        <View style={styles.infoRow}>
+          <View style={styles.infoItem}>
+            <Text style={styles.infoLabel}>QRS Duration</Text>
+            <Text style={styles.infoValue}>0.08s</Text>
+          </View>
+          <View style={styles.infoItem}>
+            <Text style={styles.infoLabel}>QT Interval</Text>
+            <Text style={styles.infoValue}>0.42s</Text>
+          </View>
+        </View>
+      </View>
+
+      <View style={styles.analysisContainer}>
+        <View style={styles.analysisHeader}>
+          <Ionicons name="analytics" size={24} color="#4CAF50" />
+          <Text style={styles.analysisTitle}>AI Analysis</Text>
+        </View>
+        <Text style={styles.analysisText}>
+          No abnormalities detected. ECG pattern is consistent with normal sinus rhythm.
+        </Text>
+      </View>
+
+      <View style={styles.historyContainer}>
+        <Text style={styles.historyTitle}>Recent Events</Text>
+        <View style={styles.eventItem}>
+          <View style={styles.eventTimeContainer}>
+            <Text style={styles.eventTime}>10:32 AM</Text>
+            <Text style={styles.eventDate}>Today</Text>
+          </View>
+          <View style={styles.eventContent}>
+            <Text style={styles.eventTitle}>Slight elevation in heart rate</Text>
+            <Text style={styles.eventDescription}>Heart rate increased to 85 BPM during training session</Text>
+          </View>
+        </View>
+        <View style={styles.eventItem}>
+          <View style={styles.eventTimeContainer}>
+            <Text style={styles.eventTime}>8:15 AM</Text>
+            <Text style={styles.eventDate}>Today</Text>
+          </View>
+          <View style={styles.eventContent}>
+            <Text style={styles.eventTitle}>Normal rhythm detected</Text>
+            <Text style={styles.eventDescription}>All ECG parameters within normal range</Text>
+          </View>
+        </View>
+      </View>
+    </SafeAreaView>
+  )
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#121826",
+  },
+  header: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    padding: 16,
+  },
+  title: {
+    color: "#fff",
+    fontSize: 24,
+    fontWeight: "bold",
+  },
+  liveIndicator: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "rgba(76, 175, 80, 0.2)",
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 16,
+  },
+  liveDot: {
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+    backgroundColor: "#4CAF50",
+    marginRight: 6,
+  },
+  liveText: {
+    color: "#4CAF50",
+    fontSize: 14,
+    fontWeight: "500",
+  },
+  chartContainer: {
+    alignItems: "center",
+    marginVertical: 16,
+  },
+  chart: {
+    borderRadius: 16,
+  },
+  infoContainer: {
+    padding: 16,
+  },
+  infoRow: {
+    flexDirection: "row",
+    marginBottom: 16,
+  },
+  infoItem: {
+    flex: 1,
+    backgroundColor: "#1e293b",
+    borderRadius: 12,
+    padding: 16,
+    marginHorizontal: 4,
+  },
+  infoLabel: {
+    color: "#8d9cb8",
+    fontSize: 14,
+  },
+  infoValue: {
+    color: "#fff",
+    fontSize: 18,
+    fontWeight: "500",
+    marginTop: 4,
+  },
+  analysisContainer: {
+    margin: 16,
+    padding: 16,
+    backgroundColor: "#1e293b",
+    borderRadius: 12,
+  },
+  analysisHeader: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 12,
+  },
+  analysisTitle: {
+    color: "#fff",
+    fontSize: 18,
+    fontWeight: "500",
+    marginLeft: 8,
+  },
+  analysisText: {
+    color: "#8d9cb8",
+    fontSize: 14,
+    lineHeight: 20,
+  },
+  historyContainer: {
+    padding: 16,
+  },
+  historyTitle: {
+    color: "#fff",
+    fontSize: 18,
+    fontWeight: "500",
+    marginBottom: 12,
+  },
+  eventItem: {
+    flexDirection: "row",
+    backgroundColor: "#1e293b",
+    borderRadius: 12,
+    padding: 12,
+    marginBottom: 8,
+  },
+  eventTimeContainer: {
+    width: 70,
+    marginRight: 12,
+  },
+  eventTime: {
+    color: "#fff",
+    fontSize: 14,
+    fontWeight: "500",
+  },
+  eventDate: {
+    color: "#8d9cb8",
+    fontSize: 12,
+  },
+  eventContent: {
+    flex: 1,
+  },
+  eventTitle: {
+    color: "#fff",
+    fontSize: 14,
+    fontWeight: "500",
+  },
+  eventDescription: {
+    color: "#8d9cb8",
+    fontSize: 12,
+    marginTop: 4,
+  },
+})

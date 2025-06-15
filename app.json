@@ -1,0 +1,74 @@
+{
+  "expo": {
+    "name": "STOMP",
+    "slug": "stomp-mobile",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "scheme": "stompmobile",
+    "userInterfaceStyle": "dark",
+    "newArchEnabled": true,
+    "splash": {
+      "resizeMode": "contain",
+      "backgroundColor": "#121826"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.stomp.mobile",
+      "buildNumber": "1.0.0",
+      "infoPlist": {
+        "UIBackgroundModes": ["remote-notification"],
+        "NSHealthShareUsageDescription": "STOMP needs access to your health data to monitor your cardiac health.",
+        "NSHealthUpdateUsageDescription": "STOMP needs permission to update your health data for cardiac monitoring."
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#121826"
+      },
+      "package": "com.stomp.mobile",
+      "versionCode": 1,
+      "edgeToEdgeEnabled": true,
+      "permissions": [
+        "RECEIVE_BOOT_COMPLETED",
+        "VIBRATE",
+        "WAKE_LOCK"
+      ]
+    },
+    "web": {
+      "bundler": "metro",
+      "output": "static"
+    },
+    "plugins": [
+      "expo-router",
+      [
+        "expo-splash-screen",
+        {
+          "imageWidth": 200,
+          "resizeMode": "contain",
+          "backgroundColor": "#121826"
+        }
+      ],
+      [
+        "expo-screen-orientation",
+        {
+          "initialOrientation": "PORTRAIT"
+        }
+      ]
+    ],
+    "experiments": {
+      "typedRoutes": true,
+      "tsconfigPaths": true
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "your-project-id"
+      }
+    }
+  }
+}

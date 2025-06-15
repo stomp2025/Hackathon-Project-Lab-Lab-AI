@@ -1,9 +1,10 @@
-fastapi
-uvicorn[standard]
-pydantic
-passlib[bcrypt]
-python-jose[cryptography]
-SQLAlchemy
-psycopg2-binary
 python-dotenv
 python-multipart==0.0.6
+fastapi==0.104.1
+uvicorn==0.24.0
+python-multipart==0.0.6
+sqlalchemy
+alembic
+python-jose[cryptography]
+passlib[bcrypt]
+python-decouple

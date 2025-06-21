@@ -8,6 +8,9 @@ import uuid
 from ..dependencies import get_current_user
 from ..models.user import User, UserRole
 
+
+from app.services.email_service import send_emergency_email
+
 router = APIRouter(
     prefix="/notifications",
     tags=["notifications"],
@@ -233,3 +236,15 @@ def send_protocol_update(
     create_notification(notification, current_user)
     
     return {"status": "success", "message": "Protocol update sent successfully"}
+
+# @router.post("/test-email")
+# async def test_email():
+#     await send_emergency_email(
+#         to=["olamundoempy@gmail.com"],  # qualquer e-mail fictício
+#         subject="🚨 Teste de Emergência",
+#         body="""
+#         <h3>Teste STOMP</h3>
+#         <p>Este é um teste de envio de e-mail com smtp4dev.</p>
+#         """
+#     )
+#     return {"message": "E-mail enviado com sucesso"}

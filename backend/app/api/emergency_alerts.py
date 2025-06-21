@@ -7,6 +7,8 @@ from app.services.auth_service import decode_access_token, TokenData
 from app.services.emergency_alert_service import manager, simulate_cardiac_anomaly
 from app.database import get_db
 from fastapi.security import OAuth2PasswordBearer
+from app.services.email_service import send_emergency_email
+from app.services.emergency_contact_service import get_emergency_contacts_by_user
 
 router = APIRouter()
 
@@ -62,19 +64,37 @@ async def websocket_endpoint(websocket: WebSocket, user_id: str, role: str):
 async def trigger_emergency(
     location: Dict[str, float] = Body(...),
     athlete_name: str = Body(...),
+    db: Session = Depends(get_db),
     current_user: TokenData = Depends(get_current_user)
 ):
-    """Debug endpoint to trigger a simulated emergency alert"""
     if not current_user.id:
         raise HTTPException(status_code=400, detail="User ID is required")
-    
+
+    # simulate a cardiac anomaly
     emergency_data = await simulate_cardiac_anomaly(
         athlete_id=str(current_user.id),
         athlete_name=athlete_name,
         location=location
     )
-    
+
+    # search for emergency contacts
+    contacts = get_emergency_contacts_by_user(db, user_id=current_user.id)
+    emails = [c.email for c in contacts if c.email]
+
+    # aend email notifications to emergency contacts
+    if emails:
+        subject = f"🚨 Alerta de Emergência: {athlete_name}"
+        body = f"""
+        <h2>Emergência Detectada</h2>
+        <p>O atleta <strong>{athlete_name}</strong> sofreu uma possível emergência cardíaca.</p>
+        <p><strong>Localização:</strong> {location}</p>
+        <p>Esta é uma notificação automática do sistema STOMP.</p>
+        """
+        await send_emergency_email(to=emails, subject=subject, body=body)
+
     return {"status": "Emergency alert triggered", "emergency_id": emergency_data["id"]}
+
+
 
 @router.get("/active-emergencies")
 async def get_active_emergencies(current_user: TokenData = Depends(get_current_user)):
